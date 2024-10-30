@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de Caminhões</title>
+    <link rel="icon" href="https://i.imgur.com/rLu3TTg.png" type="image/png"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;900&display=swap');
+    
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #152c80;
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #d4d4d4;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #152c80;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px; 
+            margin-right: 15px; 
+            transition: filter 0.3s ease;
+        }
+
+        .logo img:hover {
+            filter: grayscale(100%);
+        }
+
+        .logo span {
+            color: #ffffff; 
+            font-size: 24px;
+        }
+
+        .access-section {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .access-section h2 {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        /* Tabela de Monitoramento */
+        .monitoring-table {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .monitoring-table th, .monitoring-table td {
+            padding: 15px;
+            text-align: center;
+            color: #d4d4d4;
+        }
+
+        .monitoring-table th {
+            background-color: #2b2b2b;
+            font-weight: 700;
+        }
+
+        .monitoring-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+
+        .monitoring-table tr:hover {
+            background-color: #333333;
+        }
+
+        @media (max-width: 768px) {
+            .access-section h2 {
+                font-size: 28px;
+            }
+
+            .monitoring-table {
+                width: 100%;
+            }
+
+            .monitoring-table th, .monitoring-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+            background-color: #2b2b2b;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu a {
+            color: #d4d4d4;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .menu a:hover {
+            color: #8ab4f8;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="https://i.imgur.com/1yf4ukT.png" alt="Logo">
+            <span>VL PERFIL - Monitoramento</span>
+        </div>
+
+        <div class="menu">
+            <a href="index.html">Início</a>
+          
+        </div>
+
+    </nav>
+
+    <div class="access-section">
+        <h2>Monitoramento de Caminhões</h2>
+        <table class="monitoring-table">
+            <thead>
+                <tr>
+                    <th>Nome do Motorista</th>
+                    <th>Carro</th>
+                    <th>Rota</th>
+                    <th>Status</th>
+                    <th>Vendedor</th>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Horário de Saída</th>
+                </tr>
+            </thead>
+            <tbody class="cards">
+                <!-- Os dados serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbxfgPbzhVXslsnr_WJGhEGpvQe1Z-tRCPl5BRnclqSMQnsex9RsfP5o-7F9g4IY4Dom/exec');
+            const data = await response.json();
+
+            const tableBody = document.querySelector('.cards');
+            tableBody.innerHTML = ''; // Limpa as linhas existentes
+
+            data.forEach(item => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${item.motorista}</td>
+                    <td>${item.carro}</td>
+                    <td>${item.rota}</td>
+                    <td>${item.status}</td>
+                    <td>${item.vendedor}</td>
+                    <td>${item.pedido}</td>
+                    <td>${item.cliente}</td>
+                    <td>${item.horarioSaida}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Chama a função ao carregar a página
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
